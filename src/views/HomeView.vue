@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import PokeballSvg from '@/assets/pokeball.svg';
-
 import Card from '@/components/CardContainer.vue';
-import DynamicIcon from '@/components/DynamicIcon.vue';
 import SearchBar from '@/components/SearchBar.vue';
 import { useRouter } from 'vue-router';
 
@@ -16,12 +13,6 @@ function handleTypeSelected(type: string) {
 <template>
   <main>
     <Card>
-      <Header>
-        <DynamicIcon width="3em" height="3em">
-          <PokeballSvg />
-        </DynamicIcon>
-        <h1>Welcome to Poke Pal</h1>
-      </Header>
       <p>
         Poke Pal helps you quickly discover Pokémon type matchups for your next battle!<br />
         <strong>Search for any Pokémon type</strong> below to instantly see which types it is

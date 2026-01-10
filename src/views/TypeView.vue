@@ -1,64 +1,51 @@
 <script lang="ts" setup>
 import { useRoute } from 'vue-router';
 import { useTypeStore } from '@/stores/pokemonTypes';
-import SankeyChart from '@/components/SankeyChart.vue';
 import CardContainer from '@/components/CardContainer.vue';
+import { computed } from 'vue';
 
 const route = useRoute();
 const typeStore = useTypeStore();
 const typeName = route.params.type as string;
 const type = typeStore.getType(typeName);
 
-// Prepare Sankey data if type exists
-let nodes: any[] = [];
-let links: any[] = [];
-if (type) {
-  // Source node is the current type
-  nodes = [
-    { name: type.name, id: 0 },
-    ...type.strongAgainst.map((s: any, i: number) => ({ name: s.type, id: i + 1 })),
-    ...type.weakAgainst.map((w: any, i: number) => ({
-      name: w.type,
-      id: i + 1 + type.strongAgainst.length,
-    })),
-  ];
-  // Links from source to strongAgainst and weakAgainst
-  links = [
-    ...type.strongAgainst.map((s: any, i: number) => ({
-      source: 0,
-      target: i + 1,
-      value: s.value,
-    })),
-    ...type.weakAgainst.map((w: any, i: number) => ({
-      source: 0,
-      target: i + 1 + type.strongAgainst.length,
-      value: w.value,
-    })),
-  ];
-}
+const typeIconUrl = computed(() => {
+  if (!type) return '';
+  return new URL(`../assets/types/${type.name.toLowerCase()}.svg`, import.meta.url).href;
+});
+
+const getTypeIconUrl = (typeName: string) => {
+  return new URL(`../assets/types/${typeName.toLowerCase()}.svg`, import.meta.url).href;
+};
 </script>
 <template>
   <main class="page">
     <CardContainer v-if="type">
       <section>
-        <h1>{{ type.name }} Type</h1>
-        <SankeyChart
-          v-if="nodes.length && links.length"
-          :nodes="nodes"
-          :links="links"
-          :width="600"
-          :height="300"
-        />
+        <h1>
+          <img :src="typeIconUrl" :alt="type.name" class="type-icon" />
+          {{ type.name }}
+        </h1>
       </section>
-      <section>
-        <h2>Strong Against:</h2>
-        <ul>
-          <li v-for="s in type.strongAgainst" :key="s.type">{{ s.type }} (x{{ s.value }})</li>
-        </ul>
-        <h2>Weak Against:</h2>
-        <ul>
-          <li v-for="w in type.weakAgainst" :key="w.type">{{ w.type }} (x{{ w.value }})</li>
-        </ul>
+      <section class="details">
+        <div>
+          <h2>Super Effective Against:</h2>
+          <ul class="type-list">
+            <li v-for="s in type.strongAgainst" :key="s.type">
+              <img :src="getTypeIconUrl(s.type)" :alt="s.type" class="list-type-icon" />
+              {{ s.type }}
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h2>Not Very Effective Against:</h2>
+          <ul class="type-list">
+            <li v-for="w in type.weakAgainst" :key="w.type">
+              <img :src="getTypeIconUrl(w.type)" :alt="w.type" class="list-type-icon" />
+              {{ w.type }}
+            </li>
+          </ul>
+        </div>
       </section>
     </CardContainer>
     <CardContainer v-else>
@@ -68,14 +55,60 @@ if (type) {
 </template>
 
 <style>
-@media (min-width: 1024px) {
-  .page {
-    min-height: 100vh;
-    width: calc(100vw / 2);
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
+section {
+  padding: 0.5rem;
+}
+
+h1 {
+  padding: 0.5rem;
+}
+
+.details {
+  display: flex;
+  justify-content: space-around;
+  gap: 2rem;
+}
+
+.details div:nth-last-of-type(1) {
+  border-left: 1px solid #ccc;
+  padding-left: 4rem;
+}
+
+.type-icon {
+  width: 2rem;
+  height: 2rem;
+  vertical-align: middle;
+  margin-right: 0.5rem;
+}
+
+.type-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.type-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.list-type-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+@media screen and (max-width: 400px) {
+  .details {
+    flex-direction: column;
+  }
+
+  .details div:nth-last-of-type(1) {
+    border-left: none;
+    border-top: 1px solid #ccc;
+    padding-left: 0;
+    padding-top: 1rem;
+    margin-top: 1rem;
   }
 }
 </style>

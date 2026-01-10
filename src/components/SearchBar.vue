@@ -23,7 +23,6 @@ function handleSearch() {
 <template>
   <search>
     <form @submit.prevent="handleSearch">
-      <label for="type">Search</label>
       <span>
         <input
           v-model="searchQuery"
