@@ -4,6 +4,47 @@ import { storeToRefs } from 'pinia';
 import { useTypeStore } from '@/stores/pokemonTypes';
 import DynamicIcon from './DynamicIcon.vue';
 
+// Import SVGs as components
+import BugIcon from '@/assets/type-icons/bug.svg';
+import DarkIcon from '@/assets/type-icons/dark.svg';
+import DragonIcon from '@/assets/type-icons/dragon.svg';
+import ElectricIcon from '@/assets/type-icons/electric.svg';
+import FairyIcon from '@/assets/type-icons/fairy.svg';
+import FightingIcon from '@/assets/type-icons/fighting.svg';
+import FireIcon from '@/assets/type-icons/fire.svg';
+import FlyingIcon from '@/assets/type-icons/flying.svg';
+import GhostIcon from '@/assets/type-icons/ghost.svg';
+import GrassIcon from '@/assets/type-icons/grass.svg';
+import GroundIcon from '@/assets/type-icons/ground.svg';
+import IceIcon from '@/assets/type-icons/ice.svg';
+import NormalIcon from '@/assets/type-icons/normal.svg';
+import PoisonIcon from '@/assets/type-icons/poison.svg';
+import PsychicIcon from '@/assets/type-icons/psychic.svg';
+import RockIcon from '@/assets/type-icons/rock.svg';
+import SteelIcon from '@/assets/type-icons/steel.svg';
+import WaterIcon from '@/assets/type-icons/water.svg';
+
+const typeIconMap: Record<string, string> = {
+  bug: BugIcon,
+  dark: DarkIcon,
+  dragon: DragonIcon,
+  electric: ElectricIcon,
+  fairy: FairyIcon,
+  fighting: FightingIcon,
+  fire: FireIcon,
+  flying: FlyingIcon,
+  ghost: GhostIcon,
+  grass: GrassIcon,
+  ground: GroundIcon,
+  ice: IceIcon,
+  normal: NormalIcon,
+  poison: PoisonIcon,
+  psychic: PsychicIcon,
+  rock: RockIcon,
+  steel: SteelIcon,
+  water: WaterIcon,
+};
+
 // Emit selection of a type label (or null)
 const emit = defineEmits<{
   (e: 'typeSelected', value: string | null): void;
@@ -154,10 +195,7 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocumentClick));
         @mousedown.prevent="selectItem(item)"
       >
         <DynamicIcon height="2.2em" width="2.2em" class="list-item-icon">
-          <img
-            :src="`/src/assets/type-icons/${item.label.toLowerCase()}.svg`"
-            :alt="`${item.label} type icon`"
-          />
+          <component :is="typeIconMap[item.label.toLowerCase()]" :alt="`${item.label} type icon`" />
         </DynamicIcon>
         <span class="list-item-label">{{ item.label }}</span>
       </li>
