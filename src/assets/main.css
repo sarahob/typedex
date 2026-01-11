@@ -1,1 +1,35 @@
 @import './base.css';
+
+:root {
+  --primary-red: #d94a3a;
+  --secondary-red: #fadcdc;
+  --background-color: #fbfdfd;
+  --border-primary-color: #d7bebe;
+  --text-header-color: #4f4747;
+  --text-primary-color: #1e1e1e;
+  --text-primary-color-contrast: #fbfdfd;
+  --text-secondary-color: #828282;
+  --layout-max-width: 700px;
+  --layout-min-width: 370px;
+  --highlight-color: #efeeee;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-primary-color);
+  margin: 3rem;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--text-header-color);
+}
+
+main {
+  margin: 0px auto;
+  min-width: 370px;
+  max-width: 700px;
+}
