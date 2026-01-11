@@ -23,6 +23,8 @@ import PsychicIcon from '@/assets/type-icons/psychic.svg';
 import RockIcon from '@/assets/type-icons/rock.svg';
 import SteelIcon from '@/assets/type-icons/steel.svg';
 import WaterIcon from '@/assets/type-icons/water.svg';
+import NotFoundIcon from '@/assets/NotFound.svg';
+import NotFound from '@/views/NotFound.vue';
 
 const typeIconMap: Record<string, string> = {
   bug: BugIcon,
@@ -214,7 +216,7 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocumentClick));
         :class="{ highlighted: true }"
       >
         <DynamicIcon height="2em" width="2em" class="list-item-icon">
-          <img :src="`/src/assets/NotFound.svg`" :alt="`No Result Found icon of Pokemon Unknown`" />
+          <NotFoundIcon aria-label="no results found icon" />
         </DynamicIcon>
         <span class="list-item-label not-found-label"> No result found</span>
       </li>
@@ -225,7 +227,6 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocumentClick));
 <style scoped>
 .combobox {
   position: relative;
-  width: 100%;
 }
 
 .combo-input::placeholder {
