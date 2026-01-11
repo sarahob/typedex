@@ -20,4 +20,10 @@ div {
   flex-direction: column;
   gap: 2rem;
 }
+
+@media screen and (max-width: 500px) {
+  div {
+    gap: 2.6rem;
+  }
+}
 </style>

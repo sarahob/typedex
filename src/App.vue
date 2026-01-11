@@ -1,13 +1,16 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router';
+import { RouterLink, RouterView, useRoute } from 'vue-router';
 import logo from '@/assets/TypeDexLogo.svg?url';
 import DynamicIcon from './components/DynamicIcon.vue';
+import SearchIcon from '@/assets/searchIcon.svg';
+
+const route = useRoute();
 </script>
 
 <template>
   <header>
     <nav>
-      <RouterLink to="/" class="home-link">
+      <RouterLink v-if="route.name === 'home'" to="/" class="home-link">
         <DynamicIcon height="4em" width="4em">
           <img
             :src="logo"
@@ -15,6 +18,11 @@ import DynamicIcon from './components/DynamicIcon.vue';
           />
         </DynamicIcon>
         <h1>Type Dex</h1>
+      </RouterLink>
+
+      <RouterLink v-if="route.name !== 'home'" class="search-link" to="/">
+        <h1>Type Dex</h1>
+        <DynamicIcon height="2em" width="2em"> <SearchIcon fill="#fff" /> </DynamicIcon>
       </RouterLink>
     </nav>
   </header>
@@ -40,5 +48,21 @@ header {
 nav a {
   text-decoration: none;
   font-size: 1.2rem;
+}
+
+.search-link {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  margin: 0.5rem;
+}
+
+.search-link div {
+  background-color: var(--highlight-color);
+  border-radius: 50%;
+  padding: 0.5rem;
+  height: 4rem;
+  width: 4rem;
 }
 </style>

@@ -6,6 +6,7 @@ import LayoutContainer from '@/components/LayoutContainer.vue';
 import DynamicIcon from '@/components/DynamicIcon.vue';
 import EffectiveIcon from '@/assets/effective.svg';
 import NotVeryEffectiveIcon from '@/assets/weak.svg';
+import NotFound from '@/assets/NotFound.svg';
 
 const route = useRoute();
 const typeStore = useTypeStore();
@@ -29,7 +30,7 @@ const getTypeIconUrl = (typeName: string) => {
         <section>
           <div class="effect">
             <div class="icon-badge super-effective">
-              <DynamicIcon :height="'3rem'" :width="'3rem'">
+              <DynamicIcon :height="'3em'" :width="'3em'">
                 <EffectiveIcon class="super-effective-icon" aria-label="super effective" />
               </DynamicIcon>
             </div>
@@ -52,7 +53,7 @@ const getTypeIconUrl = (typeName: string) => {
         <section>
           <div class="effect">
             <div class="icon-badge not-very-effective">
-              <DynamicIcon :height="'3rem'" :width="'3rem'">
+              <DynamicIcon :height="'3em'" :width="'3em'">
                 <NotVeryEffectiveIcon
                   class="not-very-effective-icon"
                   aria-label="not very effective"
@@ -76,7 +77,14 @@ const getTypeIconUrl = (typeName: string) => {
       </CardContainer>
     </CardContainer>
     <CardContainer v-else>
-      <h1>Type not found</h1>
+      <CardContainer background-color="var(--highlight-color)" class="error-container">
+        <h1>404 - Page Not Found</h1>
+        <DynamicIcon :height="'6rem'" :width="'6rem'">
+          <NotFound aria-label="404 not found illustration" />
+        </DynamicIcon>
+        <p>Sorry, the page you are looking for does not exist.</p>
+        <RouterLink to="/">Go back to Search</RouterLink>
+      </CardContainer>
     </CardContainer>
   </LayoutContainer>
 </template>
@@ -176,5 +184,71 @@ h2 {
   display: flex;
   align-items: center;
   gap: 2rem;
+}
+
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  text-align: center;
+}
+
+@media screen and (max-width: 500px) {
+  .type-header {
+    flex-direction: row;
+    padding: 1rem;
+    gap: 1.2rem;
+    justify-content: center;
+  }
+  section {
+    grid-template-columns: 1fr;
+    padding: 0.25rem;
+  }
+  .effect-list {
+    width: 100%;
+    padding: 0;
+    display: inline-grid;
+  }
+
+  .type-list {
+    margin-top: 1rem;
+  }
+
+  .type-list li {
+    gap: 0.5rem;
+    font-size: 1rem;
+  }
+
+  .effect h2 {
+    display: none;
+  }
+
+  .effect {
+    position: relative;
+  }
+
+  .icon-badge {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    position: absolute;
+    top: -50px;
+  }
+
+  .super-effective {
+    background-color: var(--super-effective-color-light);
+    font-size: 0.8rem;
+  }
+
+  .not-very-effective {
+    background-color: var(--not-very-effective-color-light);
+    font-size: 0.8rem;
+  }
 }
 </style>
